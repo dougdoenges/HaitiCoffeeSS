@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from haitiApp.models import Product, Product_Image, Customer
+from main.models import Product, Product_Image, Customer
 import json
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response

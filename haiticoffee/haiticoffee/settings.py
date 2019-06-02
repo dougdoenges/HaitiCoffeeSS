@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     # 'haitiApp',
     # 'auth',
-    # 'main',
+    'main',
     # 'products',
     'django_extensions'
 ]
