@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'account',
     # 'haitiApp',
     # 'auth',
     'main',
@@ -87,7 +88,8 @@ DATABASES = {
         'NAME': 'serverSide-db',
         'USER': 'hatrock',
         'PASSWORD': 'UWgrad2019',
-        'HOST': 'serverside-project',
+        'HOST': 'serverside-project.database.windows.net',
+        'PORT': '1433',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
             'MARS_Connection': 'True',
