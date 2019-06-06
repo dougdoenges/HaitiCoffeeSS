@@ -23,27 +23,32 @@
   
 "account/logout/"
 ## GET
-  Logs the current user out and takes them to the homepage "/"
+  Logs the current user out "/"
   
 "account/address/"
 ### GET
   Returns address management page including all the current users addresses
   
-### DELETE
-  Deletes an existing address and returns to "account/address/"
-  
+
 "account/address/create/"
 ### GET
   Gets form to create a new address
+
+### POST
+  Post a new address
+
+"account/address/delete/"
+### GET
+  Gets form to delete an address
   
 ### POST
-  Creates a new address for the user and redirects to "account/address/"
+  Delete a new address for the user
   
-/account/address/edit/"
+/account/address/change/"
 ### GET
   Gets form to edit an existing address
   
-### PATCH
+### POST
   Updates the address and redirects to "account/address/"
   
 "collections/<str:collection-name>/"
