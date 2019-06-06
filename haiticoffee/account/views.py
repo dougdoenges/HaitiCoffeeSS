@@ -20,8 +20,6 @@ BadRequestMessage = "Bad request."
 DatabaseErrorMessage = "Error interacting with database."
 
 
-
-
 @csrf_exempt
 @login_required(login_url='/account/signin')
 def accountPage(request):

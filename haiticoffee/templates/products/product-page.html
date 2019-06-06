@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="row my-5 px-5">
+    <div class="col col-sm-12 col-md-6">
+        <!-- Product Images -->
+    </div>
+    <div class="col col-sm-12 col-md-6 text-center">
+        <h2>{{ productDetails.productName }}</h2>
+        <p>{{ productDetails.productPrice }}</p>
+        <button>
+            <a href="">Buy it Now!</a>
+        </button>
+    </div>
+</div>
+{% endblock %}

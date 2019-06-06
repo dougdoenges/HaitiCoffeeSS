@@ -1,19 +1,29 @@
 {% extends 'main/base.html' %}
 
-{% block extrahead %}
-<script type="text/javascript">
-    $(window).bind("load", function() {
-        $("#content-for-body").append("<div>test</div>")
-        // var allCollections = {{ allCollections }}
-        // var currCollection = {{ collectionDetails }}
-        // var products = {{ productDetails }} 
-        // currCollection.forEach((currCol) => {
-        //     body.append(currCol['collectionName'])
-        // })
-    });
-</script>
-{% endblock %}
-
 {% block content %}
-
+<div class="row m-5">
+    <div class="col col-xs-12 col-sm-2">
+        <ul>
+            {% for collection in allCollections %}
+                <li class="my-2">
+                    <a href="../{{ collection.id }}">{{ collection.collectionName }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col col-x-12 col-sm-10">
+        {% for product in productDetails %}
+            <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-4" style="display: inline-block;">
+                <div class="card">
+                    <a href="/products/{{ product.id }}">
+                        <div class="card-body">
+                            <p>{{ product.productName }}</p>
+                            <p>{{ product.productPrice }}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
