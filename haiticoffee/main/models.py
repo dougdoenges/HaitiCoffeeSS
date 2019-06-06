@@ -20,9 +20,15 @@ class Customer(models.Model):
     isVendor = models.BooleanField('isVendor', default=False)
     isFarmer = models.BooleanField('isFarmer', default=False)
 
-class Cart(models.Model):
-    customer = models.ForeignKey('customer', Customer)
-    totalPrice = models.DecimalField('totalPrice', max_digits = 5, decimal_places = 2)
+class Collection(models.Model):
+    collectionName = models.CharField('collectionName', max_length=250, unique=True)
+    collectionDescription = models.CharField('collectionDescription', max_length=500)
+    
+class Product(models.Model):
+    productName = models.CharField('productName', max_length = 250, unique = True)
+    productDescription = models.TextField('productDescription')
+    productPrice = models.DecimalField('productPrice', max_digits=5, decimal_places=2)
+    productCollection = models.ForeignKey('collection', Collection)
 
 class Order(models.Model):
     statusChoices = (
@@ -35,23 +41,10 @@ class Order(models.Model):
     customer = models.ForeignKey('customer', Customer)
     orderDate = models.DateTimeField('orderDate', auto_now_add = True)
     status = models.TextField('status', max_length = 250, default = 'Order Received')
-    cartID = models.ForeignKey('Cart', Cart)
-    
-
-class Collection(models.Model):
-    collectionName = models.CharField('collectionName', max_length=250, unique=True)
-    collectionDescription = models.CharField('collectionDescription', max_length=500)
-    
-class Product(models.Model):
-    productName = models.CharField('productName', max_length = 250, unique = True)
-    productDescription = models.TextField('productDescription')
-    productPrice = models.DecimalField('productPrice', max_digits=5, decimal_places=2)
-    productCart = models.ManyToManyField(Cart)
-    productCollection = models.ForeignKey('collection', Collection)
+    totalPrice = models.DecimalField('totalPrice', max_digits=5, decimal_places=2)
+    product = models.ForeignKey('product', Product)
 
 class Product_Image(models.Model) :
     product = models.ForeignKey('product', Product)
     img = models.ImageField('img', upload_to='products/productImages/', blank=True, null=True)
     uploadedAt = models.DateTimeField(auto_now_add=True)
-
-    

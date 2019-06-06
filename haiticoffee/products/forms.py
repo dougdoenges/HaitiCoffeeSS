@@ -10,4 +10,4 @@ class NewProductForm(forms.Form):
 class AddImageForm(forms.Form):
     newImage = forms.ImageField(label='image', required=False)
 
-class purchaseProductForm(forms.Form):
+# class purchaseProductForm(forms.Form):

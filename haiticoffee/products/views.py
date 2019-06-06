@@ -42,11 +42,11 @@ def buyProduct(request, product_name):
             currProduct = Product.objects.get(productName=product_name)
             return render(request, 'products/purchase-product.html',
                 {'form': purchaseProductForm, 'productInfo': currProduct}, status=200)
-        elif request.method == "POST":
-            # Create the order on the user profile
-            # We should have products in a completed order stored in the order table
-                # If a product is deleted or price is change, we shouldn't change the details
-                # of a completed order.
+        # elif request.method == "POST":
+        #     # Create the order on the user profile
+        #     # We should have products in a completed order stored in the order table
+        #         # If a product is deleted or price is change, we shouldn't change the details
+        #         # of a completed order.
         else:
             return HttpResponse("Method not allowed.", status=405)
 
