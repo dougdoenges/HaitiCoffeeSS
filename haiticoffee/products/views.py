@@ -204,11 +204,14 @@ def delete(request):
         elif request.method == "POST":
             productData = request.POST
             getProduct = Product.objects.get(id = productData['productID'])
-            print(getProduct)
-            getProduct.delete()
+            print(getProduct.id, getProduct.productName)
+            try:
+                getProduct.delete()
+            except:
+                HttpResponse('You Cannot Delete This', status=status.HTTP_400_BAD_REQUEST)
             return HttpResponse('Product Deleted successfully', status=status.HTTP_200_OK)
-    # except DatabaseError :
-    #     return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
+    except DatabaseError :
+        return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return HttpResponse(str(e), status=status.HTTP_400_BAD_REQUEST)
     
@@ -230,6 +233,45 @@ def products(request):
         return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
     except Exception :
         return HttpResponse(BadRequestMessage, status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
+@login_required(login_url='/account/signin')
+def orders(request, product_id):
+    try:
+        if request.method == "GET":
+            getProduct = Product.objects.get(id = product_id)
+            getTotalPrice = getProduct.productPrice
+            getCustomer = Customer.objects.get(id = request.user.id)
+            newOrder = Order.objects.create(customer = getCustomer, orderDate = datetime.datetime.now(), status = "Order Received", totalPrice = getTotalPrice, product = getProduct)
+            newOrder.save()
+            OrderAll = Order.objects.all()
+            OrderListss = []
+
+            for eachOrder in OrderAll:
+                orderCustomerID = eachOrder.customer.id
+                if(orderCustomerID == request.user.id):
+                    orderID = eachOrder.id
+                    orderDate = (eachOrder.orderDate)
+                    orderCust = eachOrder.customer
+                    orderStatus = eachOrder.status
+                    orderPrice = eachOrder.totalPrice
+                    orderProduct = eachOrder.product
+                    
+                    orderDate = (str(orderDate)[0:10])
+                    #print(str(orderDate)[0:10])
+
+                    overallOrder = "OrderID:" + str(orderID) + " Order Date: " + orderDate + " Order Customer:" + str(orderCust) + " Order Status:" + orderStatus + " Price:" + str(orderPrice) + " Product:" + str(orderProduct) 
+                    OrderListss.append(overallOrder)
+                    
+            return HttpResponse(render(request, 'products/orderList.html', {'orderOverall' : OrderListss}), status = 200)
+            # return HttpResponse(render(request, 'products/orderList.html', {'orderID' : orderID, 'orderDate' : orderDate, 'orderCust':orderCust, 'orderStatus':orderStatus, 'orderPrice':orderPrice, 'orderProduct':orderProduct}), status = 200)
+            
+    except json.JSONDecodeError :
+        return HttpResponse(JSONDecodeFailMessage, status=status.HTTP_400_BAD_REQUEST)
+    except DatabaseError :
+        return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
+    # except Exception :
+    #     return HttpResponse(BadRequestMessage, status=status.HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt

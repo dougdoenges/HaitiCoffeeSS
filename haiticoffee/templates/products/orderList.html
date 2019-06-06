@@ -1,0 +1,15 @@
+
+{% block content %}
+
+   <ul>
+        {% for eachOrderOverall in orderOverall %}
+            <li>{{eachOrderOverall}}</li>
+      <!-- <li>{{orderID}}</li>
+      <li>{{orderDate}}</li>
+      <li>{{orderCust}}</li>
+      <li>{{orderStatus}}</li>
+      <li>{{orderPrice}}</li>
+      <li>{{orderProduct}}</li> -->
+      {% endfor %}
+   </ul>
+{% endblock %}

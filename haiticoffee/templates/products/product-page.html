@@ -9,8 +9,17 @@
         <h2>{{ productDetails.productName }}</h2>
         <p>{{ productDetails.productPrice }}</p>
         <button>
-            <a href="">Buy it Now!</a>
+                <a href="{{productDetails.id}}/order">Buy it Now!</a>
         </button>
+
+        <!-- <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button>
+                        <a href="{{productDetails.id}}/order">Buy it Now!</a>
+                </button>
+        </form> -->
+
     </div>
 </div>
 {% endblock %}
