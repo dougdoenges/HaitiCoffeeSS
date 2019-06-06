@@ -31,11 +31,29 @@ def accountPage(request):
             currCustomer = Customer.objects.get(user=request.user)
             userAddresses = currCustomer.customerAddress
             userAddresses = list(userAddresses.values())
-            # userOrders = Order.objects.filter(customer=currCustomer)
-            # userOrders = list(userOrders.values())
-            #'orderDetails': userOrders, 
+
+            ##From Here
+            OrderAll = Order.objects.all()
+            OrderListss = []
+
+            for eachOrder in OrderAll:
+                orderCustomerID = eachOrder.customer.id
+                if(orderCustomerID == request.user.id):
+                    orderID = eachOrder.id
+                    orderDate = (eachOrder.orderDate)
+                    orderCust = eachOrder.customer
+                    orderStatus = eachOrder.status
+                    orderPrice = eachOrder.totalPrice
+                    orderProduct = eachOrder.product
+                    
+                    orderDate = (str(orderDate)[0:10])
+                    #print(str(orderDate)[0:10])
+
+                    overallOrder = "OrderID:" + str(orderID) + " Order Date: " + orderDate  + " Order Status:" + orderStatus + " Price:" + str(orderPrice) 
+                    OrderListss.append(overallOrder)
+            #To Here
             return render(request, "account/account-page.html",
-                {'addressDetails': userAddresses}, status=200)
+                {'addressDetails': userAddresses, 'orderOverall' : OrderListss}, status=200)
     # except DatabaseError :
     #     return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
@@ -136,14 +154,14 @@ def changeAddress(request, address_id):
         if request.user.is_authenticated:
             # Get into changeAddress.html 
             if request.method == 'GET':
-                # currentCustAddress = Customer.objects.get(user = request.user).customerAddress.all()
-                # if(len(currentCustAddress) == 0):
-                #     return HttpResponse("You Have Not Putted the Address Yet. Please Visit <a href = https://127.0.0.1:8000/account/create> https://127.0.0.1:8000/account/create</a> to set up", status=status.HTTP_403_FORBIDDEN)
-                # userid = request.user.id
-                # user = User.objects.get(pk=userid)
-                # currCustomer = Customer.objects.get(user=userid)
-                # userAddresses = currCustomer.customerAddress
-                # userAddresses = list(userAddresses.values())
+                currentCustAddress = Customer.objects.get(user = request.user).customerAddress.all()
+                if(len(currentCustAddress) == 0):
+                    return HttpResponse("You Have Not Putted the Address Yet. Please Visit <a href = https://127.0.0.1:8000/account/create> https://127.0.0.1:8000/account/create</a> to set up", status=status.HTTP_403_FORBIDDEN)
+                userid = request.user.id
+                user = User.objects.get(pk=userid)
+                currCustomer = Customer.objects.get(user=userid)
+                userAddresses = currCustomer.customerAddress
+                userAddresses = list(userAddresses.values())
                 currAddress = Address.objects.get(id=address_id)
                 return HttpResponse(render(request, "account/address/changeAddress.html", {'form' : ChangeAddressForm, 'address' : currAddress}), status = 200)
             #Patch Address / Edit ADdress
@@ -247,7 +265,8 @@ def signout(request):
     if request.method == 'GET':
         if (request.user.is_authenticated) :
             logout(request)
-            return HttpResponseRedirect("account/signin", status=200)
+            return HttpResponse("Signed Out!", status =200)
+            # return HttpResponseRedirect("account/signin", status=200)
         else :
             return HttpResponse("Not logged in", status=200)
     else:

@@ -12,13 +12,15 @@
         </ul>
     </div>
     <div class="col col-x-12 col-sm-10">
-        {% for product in productDetails %}
+        {% for product in productInfo %}
             <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-4" style="display: inline-block;">
                 <div class="card">
-                    <a href="/products/{{ product.id }}">
+                    <a href="/products/{{ product.0 }}">
                         <div class="card-body">
-                            <p>{{ product.productName }}</p>
-                            <p>{{ product.productPrice }}</p>
+                            <img src= '/{{ product.3 }} ' alt="Image" height="200" width="200">
+                            <p>{{ product.1 }}</p>
+                            <p>{{ product.2 }}</p>
+                            <!-- /Users/justin/Desktop/HaitiCoffeeSS/haiticoffee/static/staticfiles/img/haiti_home.jpg -->
                         </div>
                     </a>
                 </div>

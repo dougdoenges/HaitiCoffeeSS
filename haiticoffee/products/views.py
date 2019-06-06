@@ -239,6 +239,10 @@ def products(request):
 def orders(request, product_id):
     try:
         if request.method == "GET":
+            currCustomer = Customer.objects.get(user=request.user)
+            userAddresses = currCustomer.customerAddress
+            userAddresses = list(userAddresses.values())
+
             getProduct = Product.objects.get(id = product_id)
             getTotalPrice = getProduct.productPrice
             getCustomer = Customer.objects.get(id = request.user.id)
@@ -260,10 +264,11 @@ def orders(request, product_id):
                     orderDate = (str(orderDate)[0:10])
                     #print(str(orderDate)[0:10])
 
-                    overallOrder = "OrderID:" + str(orderID) + " Order Date: " + orderDate + " Order Customer:" + str(orderCust) + " Order Status:" + orderStatus + " Price:" + str(orderPrice) + " Product:" + str(orderProduct) 
+                    overallOrder = "OrderID:" + str(orderID) + " Order Date: " + orderDate + " Order Status:" + orderStatus + " Price:" + str(orderPrice) 
                     OrderListss.append(overallOrder)
                     
-            return HttpResponse(render(request, 'products/orderList.html', {'orderOverall' : OrderListss}), status = 200)
+            return render(request, "account/account-page.html",
+                {'addressDetails': userAddresses, 'orderOverall' : OrderListss}, status=200)
             # return HttpResponse(render(request, 'products/orderList.html', {'orderID' : orderID, 'orderDate' : orderDate, 'orderCust':orderCust, 'orderStatus':orderStatus, 'orderPrice':orderPrice, 'orderProduct':orderProduct}), status = 200)
             
     except json.JSONDecodeError :

@@ -29,6 +29,7 @@ class Product(models.Model):
     productDescription = models.TextField('productDescription')
     productPrice = models.DecimalField('productPrice', max_digits=5, decimal_places=2)
     productCollection = models.ForeignKey('collection', Collection)
+    productSrc = models.CharField
 
 class Order(models.Model):
     statusChoices = (
@@ -46,5 +47,5 @@ class Order(models.Model):
 
 class Product_Image(models.Model) :
     product = models.ForeignKey('product', Product)
-    img = models.ImageField('img', upload_to='products/productImages/', blank=True, null=True)
+    img = models.ImageField('img', upload_to='static/staticfiles/img/', blank=True, null=True)
     uploadedAt = models.DateTimeField(auto_now_add=True)
