@@ -7,7 +7,7 @@
   returns the index page of the website.
   
   
-## "account/login/"
+## "account/signin/"
 ### GET
   Returns form to login
   
@@ -21,14 +21,13 @@
 ### POST
   Creates a user with specified details
   
-## "account/logout/"
+## "account/signout/"
 ## GET
   Logs the current user out "/"
   
-## "account/address/"
+## "account/myaddress/"
 ### GET
-  Returns address management page including all the current users addresses
-  
+  Returns all the current users addresses with the user profile in Array
 
 ## "account/address/create/"
 ### GET
@@ -44,37 +43,29 @@
 ### POST
   Delete a new address for the user
   
-## /account/address/change/"
+## account/address/edit/<int: addressID>
 ### GET
   Gets form to edit an existing address
   
 ### POST
   Updates the address and redirects to "account/address/"
   
-## "collections/<str:collection-name>/"
+## "collections/<int:collection_id>/"
 ### GET
   Gets all products in the specified collection and returns a page displaying them as well as links to the other collections.
   
-## "products/<str:product-name>/"
+## "products/<int:product_id>/"
 ### GET
   Returns the product details and renders them on a product page.
   
-## "cart/add/<str:product-name>/"
-### POST
-  Adds a given product to the current users cart.
-
-## "cart/"
+  
+## "products/<int:product_id>/order"
 ### GET
-  Displays the current users cart.
-  
-### PATCH
-  Updates a given product quantity in the cart.
- 
-### DELETE
-  Deletes a given product from the cart and refreshes the "cart/" page
-  
-"pages/" make all pages these (they just show flat html pages)
-  
-admin access stuff
+  When the user clicks "BUY" button, create a new order and get all orders made by the user
+
+
+
+
+
 
   
