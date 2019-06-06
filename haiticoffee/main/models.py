@@ -41,11 +41,15 @@ class Order(models.Model):
     )
     customer = models.ForeignKey('customer', Customer)
     orderDate = models.DateTimeField('orderDate', auto_now_add = True)
-    status = models.TextField('status', max_length = 250, default = 'Order Received')
+    status = models.TextField('status', max_length = 250, default = 'UNFULFILLED')
     totalPrice = models.DecimalField('totalPrice', max_digits=5, decimal_places=2)
     product = models.ForeignKey('product', Product)
 
 class Product_Image(models.Model) :
     product = models.ForeignKey('product', Product)
+<<<<<<< HEAD
     img = models.ImageField('img', upload_to='static/staticfiles/img/', blank=True, null=True)
+=======
+    img = models.ImageField('img', upload_to='static/staticfiles/img', blank=True, null=True)
+>>>>>>> 02672b17e738f13baaf396c8a0e891945726ce40
     uploadedAt = models.DateTimeField(auto_now_add=True)

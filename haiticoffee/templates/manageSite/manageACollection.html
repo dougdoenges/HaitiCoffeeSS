@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class="text-center my-3">
+            <div class="my-2">
+                <p><strong>Name:</strong> {{ collection.collectionName }}</p>
+                <p><strong>Description:</strong> {{ collection.collectionDescription }}</p>
+            </div>
+    </div>
+    <div class="my-2">
+        <h2>Update Collection</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Change Collection</button>
+        </form>
+    </div>
+    <div class="my-4">
+        <button><a href="./delete/">Delete Collection</a></button>
+    </div>
+
+{% endblock %}
