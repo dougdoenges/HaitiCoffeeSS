@@ -5,7 +5,7 @@
     <div>
         <ul>
             {% for image in images %}
-                <img src="/{{ image.img }}">
+                <img src="/{{ image.img }}" height="200" width="200">
                 <button><a href="./delete/{{image.id}}">Delete Image</a></button>
             {% endfor %}
         </ul>
