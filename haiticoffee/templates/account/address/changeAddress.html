@@ -1,0 +1,17 @@
+{% block content %}
+
+    <ul>
+        <li>Username: {{user.username}}</li>
+        <li>Firstname:{{user.first_name}}</li>
+        <li>Lastname: {{user.last_name}}</li>
+        <li>Email: {{user.email}}</li>
+        <li>List of Address: {{address}}</li>
+     </ul>
+
+  <h2>Change An Address</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Change</button>
+  </form>
+{% endblock %}

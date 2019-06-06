@@ -36,6 +36,7 @@ class Order(models.Model):
     orderDate = models.DateTimeField('orderDate', auto_now_add = True)
     status = models.TextField('status', max_length = 250, default = 'Order Received')
     cartID = models.ForeignKey('Cart', Cart)
+    
 
 class Collection(models.Model):
     collectionName = models.CharField('collectionName', max_length=250, unique=True)
