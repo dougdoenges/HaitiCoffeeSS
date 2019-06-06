@@ -131,9 +131,74 @@
   DatabaseErrorMessage = "Error interacting with database."
   Method not allowed for the wrong request method
 
+# manage-site/
+  All of the "manage-site/" endpoints are only accessible if the user is an admin
 
+## manage-site/
+### GET
+  Returns the manage Home page.
+  
+## manage-site/products/
+### GET
+  Returns the management page for products.
+  
+## manage-site/products/create/
+### GET
+  Returns the form to create a product on a web page.
+### POST
+  Posts the form to create a new product.
+  
+## manage-site/products/<int:product_id>/
+### GET
+  Returns a page with product details and a form to update the product details.
+### POST
+  Posts the form to update the product details.
 
+## manage-site/products/<int:product_id>/delete/
+### GET
+  Deletes the product.
+  
+## manage-site/products/<int:product_id>/images/
+### GET
+  Returns a page showing the product's images and a form to add a new image to the product.
+### POST
+  Posts the form to add a new image to the product.
 
+## manage-site/products/<int:product_id>/delete/<int:image_id>/
+### GET
+  Deletes the specified image from the product.
+  
+## manage-site/collections
+### GET
+  Returns the page to manage collections for the site.
+  
+## manage-site/collections/create/
+### GET
+  Returns a form to create a new collection for the site.
+### POST
+  Posts the form to create the new collection.
+  
+## manage-site/collections/create/<int:collection_id>/
+### GET
+  Returns collection data and a form to update the given collections information.
+### POST
+  Posts the form to update the collection information.
+  
+## manage-site/collections/create/<int:collection_id>/delete/
+### GET
+  Deletes the given collection
+  
+## manage-site/orders/
+### GET
+  Returns a page displaying all the orders and a link to go to a specific order to update.
+  
+## manage-site/orders/<int:order_id>/
+### GET
+  Displays the order information and a form to update the order status.
+### POST
+  Updates the order status.
 
-
+  
+  
+  
   
