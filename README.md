@@ -29,9 +29,7 @@
 ### GET
   Returns address management page including all the current users addresses
   
-### DELETE
-  Deletes an existing address and returns to "account/address/"
-  
+
 "account/address/create/"
 ### GET
   Gets form to create a new address
