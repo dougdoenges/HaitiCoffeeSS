@@ -1,0 +1,53 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<div class="text-center my-3">
+    <h1>My Account</h1>
+    <a href="./signout">Log Out</a>
+</div>
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Product Name</th>
+                        <th>Date</th>
+                        <th>Fulfillment Status</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="order-history">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col" id="user-addresses">
+            <button>
+                <a href="./address/create">Create an Address</a>
+            </button>
+            {% for address in addressDetails %}
+                <p>
+                    {{address.addressLine1}}<br>
+                    {% if address.addressLine2 != "" %}
+                        {{address.addressLine2}}<br>
+                    {% endif %}
+                    {{address.city}}<br>
+                    {{address.state}}<br>
+                    {{address.postalCode}}<br>
+                    {{address.country}}<br>
+                </p>
+                <button>
+                    <a href="./address/edit/{{address.id}}">Edit</a>
+                </button>
+                <button>
+                    <a href="./address/delete/{{address.id}}">Delete</a>
+                </button>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -13,15 +13,15 @@ BadRequestMessage = "Bad request."
 DatabaseErrorMessage = "Error interacting with database."
 
 # Create your views here.
-def getCollection(request, collection_name):
+def getCollection(request, collection_id):
     try:
         if request.method == "GET":
-            collectionDetails = Collection.objects.get(collectionName=collection_name)
+            collectionDetails = Collection.objects.get(id=collection_id)
             collectionProducts = Product.objects.filter(productCollection=collectionDetails).values()
             collectionList = list(collectionProducts)
             for product in collectionList:
                 productObj = Product.objects.get(id=product['id'])
-                product['productImages'] = list(Product_Image.objects.filter(product=productObj).values())[0]
+                product['productImages'] = list(Product_Image.objects.filter(product=productObj).values())
             allCollections = list(Collection.objects.all().values())
             return render(request, 'prodCollections/collection.html',
                 {'collectionDetails': collectionDetails, 'productDetails': collectionList,

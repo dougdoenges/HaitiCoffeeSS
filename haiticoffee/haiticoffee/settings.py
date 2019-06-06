@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'account',
     'main',
     # 'products',
+    #'main.SendemailConfig',
     'django_extensions',
     'jquery'
 ]
@@ -146,3 +147,16 @@ SESSION_COOKIE_AGE = 60*60
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    'staticfiles/',
+]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = 1025
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_USE_TLS = False

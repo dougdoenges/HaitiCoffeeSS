@@ -3,6 +3,5 @@ from . import views
 
 app_name = 'main'
 urlpatterns = [
-    path('<collection_name>/', views.getCollection, name='getCollection'),
-    path('', views.getCollection, name='getCollection')
+    path('<int:collection_id>/', views.getCollection, name='getCollection')
 ]
