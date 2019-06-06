@@ -62,13 +62,39 @@ def getProduct(request, product_id):
     # GET to return the product page
     try:
         if request.method == "GET":
-            currProduct = Product.objects.get(id=product_id)
-            # currProductImages = Product_Image.objects.filter(product=currProduct).values()
-            # #currProduct = list(currProduct)
-            # if(len(currProductImages) is not 0):
-            #     currProduct['productImages'] = currProductImages
-            return render(request, 'products/product-page.html', 
-                {'productDetails': currProduct}, status=200)
+            productImageSrc = []
+
+            productObj = Product.objects.get(id=product_id)
+            allImages = Product_Image.objects.all()
+                #print(allImages)
+            id = productObj.id
+            name = productObj.productName
+            price = productObj.productPrice
+
+            if len(allImages) is 0:
+                productImageSrc.append((id, name, price, ''))
+            else:
+                for eachImage in allImages:
+                    #print(eachImage.img)
+                    if(eachImage.product == productObj):
+                        
+                        imageGet = (Product_Image.objects.get(product=productObj))
+                        stringSrc = str(imageGet.img)
+                        stringSrc = stringSrc[0:-1] + 'g'
+                        print(stringSrc)
+                        productImageSrc.append((id, name, price, stringSrc))
+
+                    else:
+                        productImageSrc.append((id, name, price, ''))
+                #product['productImages'] = (Product_Image.objects.filter(product=productObj).values())
+
+            # allCollections = list(Collection.objects.all().values())
+
+
+            print(productImageSrc)
+            return HttpResponse(render(request, 'products/product-page.html', {'productInfo': productImageSrc}), status=200)
+            # return render(request, 'products/product-page.html', 
+            #     {'productDetails': currProduct}, status=200)
         else:
             return HttpResponse("Method not allowed.", status=405)
     except DatabaseError :
@@ -245,6 +271,10 @@ def products(request):
 def orders(request, product_id):
     try:
         if request.method == "GET":
+            currCustomer = Customer.objects.get(user=request.user)
+            userAddresses = currCustomer.customerAddress
+            userAddresses = list(userAddresses.values())
+
             getProduct = Product.objects.get(id = product_id)
             getTotalPrice = getProduct.productPrice
             getCustomer = Customer.objects.get(id = request.user.id)
@@ -266,10 +296,11 @@ def orders(request, product_id):
                     orderDate = (str(orderDate)[0:10])
                     #print(str(orderDate)[0:10])
 
-                    overallOrder = "OrderID:" + str(orderID) + " Order Date: " + orderDate + " Order Customer:" + str(orderCust) + " Order Status:" + orderStatus + " Price:" + str(orderPrice) + " Product:" + str(orderProduct) 
+                    overallOrder = "OrderID:" + str(orderID) + " Order Date: " + orderDate + " Order Status:" + orderStatus + " Price:" + str(orderPrice) 
                     OrderListss.append(overallOrder)
                     
-            return HttpResponse(render(request, 'products/orderList.html', {'orderOverall' : OrderListss}), status = 200)
+            return render(request, "account/account-page.html",
+                {'addressDetails': userAddresses, 'orderOverall' : OrderListss}, status=200)
             # return HttpResponse(render(request, 'products/orderList.html', {'orderID' : orderID, 'orderDate' : orderDate, 'orderCust':orderCust, 'orderStatus':orderStatus, 'orderPrice':orderPrice, 'orderProduct':orderProduct}), status = 200)
             
     except json.JSONDecodeError :
