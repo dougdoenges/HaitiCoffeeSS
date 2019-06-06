@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main.models import Product, Product_Image, Customer
+from main.models import Product, Product_Image, Customer, Collection
 import json
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
@@ -13,6 +13,48 @@ JSONDecodeFailMessage = "Error decoding JSON body. Please ensure your JSON file 
 BadRequestMessage = "Bad request."
 DatabaseErrorMessage = "Error interacting with database."
 
+
+def getProduct(request, product_name):
+    # GET to return the product page
+    try:
+        if request.method == "GET":
+            currProduct = Product.objects.get(productName=product_name)
+            currProductImages = Product_Image.objects.filter(product=currProduct).values()
+            currProduct = list(currProduct)
+            currProduct['productImages'] = list(currProductImages)
+            return render(request, 'products/product-page.html', 
+                {'productDetails': currProduct}, status=200)
+        else:
+            return HttpResponse("Method not allowed.", status=405)
+    except DatabaseError :
+        return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return HttpResponse(str(e), status=status.HTTP_400_BAD_REQUEST)
+
+@login_required() # populate this with the login url
+def buyProduct(request, product_name):
+    """
+    On GET- return purchase form
+    On POST- complete order and post order to customers orders
+    """
+    try:
+        if request.method == "GET":
+            currProduct = Product.objects.get(productName=product_name)
+            return render(request, 'products/purchase-product.html',
+                {'form': purchaseProductForm, 'productInfo': currProduct}, status=200)
+        elif request.method == "POST":
+            # Create the order on the user profile
+            # We should have products in a completed order stored in the order table
+                # If a product is deleted or price is change, we shouldn't change the details
+                # of a completed order.
+        else:
+            return HttpResponse("Method not allowed.", status=405)
+
+    except DatabaseError :
+        return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return HttpResponse(str(e), status=status.HTTP_400_BAD_REQUEST)
+
 # Create your views here.
 @csrf_exempt
 @login_required(login_url='/auth/signin')
@@ -24,18 +66,22 @@ def createProducts(request):
     On DELETE- deletes product given by user.
     """
     try :
-        if not Customer.objects.get(user=request.user).isAdmin:
-            return HttpResponse('Must be admin to access.', status=status.HTTP_403_FORBIDDEN)
+        # if not Customer.objects.get(user=request.user).isAdmin:
+        #     return HttpResponse('Must be admin to access.', status=status.HTTP_403_FORBIDDEN)
         if request.method == "GET" :
             return HttpResponse(render(request, "products/create-a-product.html", 
                                 {'form' : NewProductForm}), status = 200)
         elif request.method == "POST":
             productData = request.POST
             productImage = request.FILES
+            print(productData['productCollection'])
+            currCollection = Collection.objects.get(collectionName=productData['productCollection'])
+            print(currCollection)
             newProduct = Product(
                 productName = productData['productName'],
                 productDescription = productData['productDescription'],
-                productPrice = productData['productPrice']
+                productPrice = productData['productPrice'],
+                productCollection = currCollection
             )
             newProduct.save()
             if productImage:
@@ -43,8 +89,8 @@ def createProducts(request):
             return HttpResponse('Product created successfully', status=status.HTTP_200_OK)
     except DatabaseError :
         return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
-    except Exception :
-        return HttpResponse(BadRequestMessage, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return HttpResponse(str(e), status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 @login_required(login_url='/auth/signin')
@@ -58,8 +104,8 @@ def products(request):
                 product['productImages'] = list(Product_Image.objects.filter(product=productObj).values())
             return JsonResponse(productList, safe=False, status=status.HTTP_200_OK)
         elif request.method == "PATCH":
-            if not Customer.objects.get(user=request.user).isAdmin:
-                return HttpResponse('Must be admin to access.', status=status.HTTP_403_FORBIDDEN)
+            # if not Customer.objects.get(user=request.user).isAdmin:
+            #     return HttpResponse('Must be admin to access.', status=status.HTTP_403_FORBIDDEN)
             productData = json.loads(request.body.decode('utf-8'))
             currProduct = Product.objects.get(id=productData['id'])
             currProduct.productName = productData['productName']
@@ -72,8 +118,8 @@ def products(request):
             productList[0]['productImages'] = list(Product_Image.objects.filter(product=productObj[0]).values())
             return JsonResponse(productList[0], status=status.HTTP_200_OK, safe=False)
         elif request.method == "DELETE":
-            if not Customer.objects.get(user=request.user).isAdmin:
-                return HttpResponse('Must be admin to access.', status=status.HTTP_403_FORBIDDEN)
+            # if not Customer.objects.get(user=request.user).isAdmin:
+            #     return HttpResponse('Must be admin to access.', status=status.HTTP_403_FORBIDDEN)
             productID = json.loads(request.body.decode('utf-8'))
             productToDelete = Product.objects.get(id=productID['id'])
             relatedImages = Product_Image.objects.filter(product=productToDelete).delete()
@@ -92,8 +138,8 @@ def products(request):
 @login_required
 def manageProductImages(request, product_id):
     try:
-        if not Customer.objects.get(user=request.user).isAdmin:
-            return HttpResponse('Must be admin to access.', status=status.HTTP_403_FORBIDDEN)
+        # if not Customer.objects.get(user=request.user).isAdmin:
+        #     return HttpResponse('Must be admin to access.', status=status.HTTP_403_FORBIDDEN)
         currProduct = Product.objects.get(id=product_id)
         if request.method == "GET":
             return HttpResponse(render(request, "products/add-an-image.html", 

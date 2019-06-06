@@ -6,6 +6,9 @@ from . import views
 app_name = 'products'
 
 urlpatterns = [
+    path('<product-name>/', views.getProduct, name="getProduct"),
+    path('<product-name>/purchase', views.buyProduct, name="buyProduct"),
+    
     path('create', views.createProducts, name = "createProducts"),
     path('', views.products, name="products"),
     path('<int:product_id>/manage-images', views.manageProductImages, name='manageProductImages'),

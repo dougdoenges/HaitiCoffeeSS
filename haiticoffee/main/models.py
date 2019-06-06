@@ -47,7 +47,6 @@ class Product(models.Model):
     productPrice = models.DecimalField('productPrice', max_digits=5, decimal_places=2)
     productCart = models.ManyToManyField(Cart)
     productCollection = models.ForeignKey('collection', Collection)
-    #productOrder = models.ManyToManyField(Order)
 
 class Product_Image(models.Model) :
     product = models.ForeignKey('product', Product)

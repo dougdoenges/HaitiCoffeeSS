@@ -41,11 +41,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'account',
-    # 'haitiApp',
-    # 'auth',
     'main',
     # 'products',
-    'django_extensions'
+    'django_extensions',
+    'jquery'
 ]
 
 MIDDLEWARE = [

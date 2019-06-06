@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+
+{% block extrahead %}
+<script type="text/javascript">
+    $(window).bind("load", function() {
+        $("#content-for-body").append("<div>test</div>")
+        // var allCollections = {{ allCollections }}
+        // var currCollection = {{ collectionDetails }}
+        // var products = {{ productDetails }} 
+        // currCollection.forEach((currCol) => {
+        //     body.append(currCol['collectionName'])
+        // })
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
