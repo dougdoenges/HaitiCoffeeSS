@@ -1,23 +1,83 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
-    <link rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.css">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staticfiles/style/style.css' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Custom Fonts from Google -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+        rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     {% block extrahead %}{% endblock %}
     <title>Haiti Coffee Co.</title>
 </head>
+
 <body>
-    <header>testHeader</header>
+    <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Logo and responsive toggle -->
+            <div class="navbar-header">
+                <!--Logo -->
+                {% load static %}
+                <a class="navbar-brand" href="/"><img class="logo" src="{% static 'staticfiles/img/logo2.png' %}" alt="Logo"></a>
+            </div>
+
+            <!-- Navbar links -->
+            <div id="navbar">
+                <ul class="nav" >
+                    <li class="active">
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="active">
+                        <a href="./about-us/">About</a>
+                    </li>
+                    <li>
+                        <a href="./collection/all/">Shop</a>
+                    </li>
+                    <li>
+                        <a href="./contact-us/">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="./account/">Profile</a>
+                    </li>
+                </ul>
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+    </nav>
+
     <div id="content-for-body">
         {% block content %}{% endblock %}
     </div>
-    <footer>testFooter</footer>
+
+    <footer class="page-footer">
+        <!-- Contact Us -->
+        <div class="contact row">
+            <div class="col col-6 footer-column">
+                <h2>About</h2>
+                <ul><a href="./about.html">Locations</a></ul>
+                <ul><a href="./about.html">Our Story</a></h2>
+                </ul>
+            </div>
+            <div class="col col-6 footer-column">
+                <h2>Shop</h2>
+                <ul><a href="./collections/all/">Collections</a></ul>
+            </div>
+            <div class="col col-12">
+                <p style="text-align: center" class="copyright"> Copyright &copy; Haiti Coffee Co. 2019</p>
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>

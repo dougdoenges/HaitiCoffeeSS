@@ -1,3 +1,5 @@
+{% extends 'main/base.html' %}
+
 {% block content %}
   <h2>Sign In</h2>
   <form method="post">
@@ -5,4 +7,10 @@
     {{ form.as_p }}
     <button type="submit">Sign In</button>
   </form>
+  <div class="my-3">
+      <h2>Don't have an account?</h2>
+      <button>
+          <a href="./register" class="no-style-link">Create Account</a>
+    </button>
+  </div>
 {% endblock %}

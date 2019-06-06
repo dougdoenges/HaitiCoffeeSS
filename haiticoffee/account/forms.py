@@ -9,7 +9,6 @@ class NewAddressForm(forms.Form):
     country = forms.CharField(label='Country', max_length=250, required=True)
 
 class ChangeAddressForm(forms.Form):
-    addressID = forms.CharField(label = "AddressID ", max_length = 250, required = True)
     addressLine1 = forms.CharField(label='Address Line 1', max_length=250, required=True)
     addressLine2 = forms.CharField(label='Address Line 2', max_length=250, required=False)
     city = forms.CharField(label='City', max_length=250, required=True)
@@ -19,8 +18,6 @@ class ChangeAddressForm(forms.Form):
 
 class DeleteAddressForm(forms.Form):
     addressID = forms.CharField(label = "AddressID ", max_length = 250, required = True)
-
-
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(label='Username', max_length=30, required=True)

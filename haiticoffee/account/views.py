@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.db import DatabaseError
-from main.models import Address, Customer
+from main.models import Address, Customer, Order
 import json
 import datetime
 from django.views.decorators.debug import sensitive_post_parameters
@@ -19,6 +19,29 @@ JSONDecodeFailMessage = "Error decoding JSON body. Please ensure your JSON file 
 BadRequestMessage = "Bad request."
 DatabaseErrorMessage = "Error interacting with database."
 
+
+
+
+@csrf_exempt
+@login_required(login_url='/account/signin')
+def accountPage(request):
+    """
+    On GET- return the account page if user is signed in
+    """
+    try:
+        if request.method == "GET":
+            currCustomer = Customer.objects.get(user=request.user)
+            userAddresses = currCustomer.customerAddress
+            userAddresses = list(userAddresses.values())
+            # userOrders = Order.objects.filter(customer=currCustomer)
+            # userOrders = list(userOrders.values())
+            #'orderDetails': userOrders, 
+            return render(request, "account/account-page.html",
+                {'addressDetails': userAddresses}, status=200)
+    # except DatabaseError :
+    #     return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return HttpResponse(str(e), status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 @login_required(login_url='/account/signin')
@@ -73,7 +96,7 @@ def addressByUser(request):
 
 @csrf_exempt
 @login_required(login_url='/account/signin')
-def deleteAddress(request):
+def deleteAddress(request, address_id):
     """
     On GET- return current user's addresses.
     On PATCH- Updates a users address with data given by user.
@@ -81,32 +104,18 @@ def deleteAddress(request):
     """
     try:
         if request.user.is_authenticated:
-            if request.method == 'GET':
-                currentCustAddress = Customer.objects.get(user = request.user).customerAddress.all()
-                if(len(currentCustAddress) == 0):
-                    return HttpResponse("You Have Not Putted the Address Yet. Please Visit <a href = https://127.0.0.1:8000/account/create> https://127.0.0.1:8000/account/create</a> to set up", status=status.HTTP_403_FORBIDDEN)
-                userid = request.user.id
-                user = User.objects.get(pk=userid)
-                currCustomer = Customer.objects.get(user=request.user)
-                userAddresses = currCustomer.customerAddress
-                userAddresses = list(userAddresses.values())
-                return HttpResponse(render(request, "account/address/deleteAddress.html", {'user' : user, 'form' : DeleteAddressForm, 'address' : userAddresses}), status = 200)
-            #delete address by ID
-            elif request.method == 'POST':
-                addressData = request.POST
-                addressID = addressData['addressID']
-
+            if request.method == "GET":
+                addressID = address_id
                 listOfAddressID = []
-
                 for x in Customer.objects.get(user=request.user).customerAddress.all():
                     id = x.id
                     listOfAddressID.append(id)
-
                 intChangedAddressID = int(addressID)
-
                 if not intChangedAddressID in listOfAddressID:
                     return HttpResponse('You may only edit your own address.', status=status.HTTP_403_FORBIDDEN)
-                Address.objects.get(id=addressID).delete()
+
+                currAddress = Address.objects.get(id=address_id)
+                currAddress.delete()
                 return HttpResponse('Deleted address successfully.', status=status.HTTP_200_OK)
         else:
             return HttpResponse("Bad login form.", status = 400)
@@ -119,7 +128,7 @@ def deleteAddress(request):
 
 @csrf_exempt
 @login_required(login_url='/account/signin')
-def changeAddress(request):
+def changeAddress(request, address_id):
     """
     On GET- return current user's addresses.
     On PATCH- Updates a users address with data given by user.
@@ -129,21 +138,22 @@ def changeAddress(request):
         if request.user.is_authenticated:
             # Get into changeAddress.html 
             if request.method == 'GET':
-                currentCustAddress = Customer.objects.get(user = request.user).customerAddress.all()
-                if(len(currentCustAddress) == 0):
-                    return HttpResponse("You Have Not Putted the Address Yet. Please Visit <a href = https://127.0.0.1:8000/account/create> https://127.0.0.1:8000/account/create</a> to set up", status=status.HTTP_403_FORBIDDEN)
-                userid = request.user.id
-                user = User.objects.get(pk=userid)
-                currCustomer = Customer.objects.get(user=userid)
-                userAddresses = currCustomer.customerAddress
-                userAddresses = list(userAddresses.values())
-                return HttpResponse(render(request, "account/address/changeAddress.html", {'user' : user, 'form' : ChangeAddressForm, 'address' : userAddresses}), status = 200)
+                # currentCustAddress = Customer.objects.get(user = request.user).customerAddress.all()
+                # if(len(currentCustAddress) == 0):
+                #     return HttpResponse("You Have Not Putted the Address Yet. Please Visit <a href = https://127.0.0.1:8000/account/create> https://127.0.0.1:8000/account/create</a> to set up", status=status.HTTP_403_FORBIDDEN)
+                # userid = request.user.id
+                # user = User.objects.get(pk=userid)
+                # currCustomer = Customer.objects.get(user=userid)
+                # userAddresses = currCustomer.customerAddress
+                # userAddresses = list(userAddresses.values())
+                currAddress = Address.objects.get(id=address_id)
+                return HttpResponse(render(request, "account/address/changeAddress.html", {'form' : ChangeAddressForm, 'address' : currAddress}), status = 200)
             #Patch Address / Edit ADdress
             elif request.method == 'POST':
                 addressData = request.POST
-                changedAddressID = addressData['addressID']
+                changedAddressID = address_id
 
-                addressBring = Address.objects.get(id = changedAddressID)
+                addressBring = Address.objects.get(id = address_id)
                 oldAddressID = addressBring.id
                 listOfAddressID = []
                 for x in Customer.objects.get(user=request.user).customerAddress.all():
@@ -239,7 +249,7 @@ def signout(request):
     if request.method == 'GET':
         if (request.user.is_authenticated) :
             logout(request)
-            return HttpResponse("Sign out successful", status=200)
+            return HttpResponseRedirect("account/signin", status=200)
         else :
             return HttpResponse("Not logged in", status=200)
     else:

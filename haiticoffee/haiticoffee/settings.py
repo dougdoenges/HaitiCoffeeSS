@@ -146,3 +146,8 @@ SESSION_COOKIE_AGE = 60*60
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    'staticfiles/',
+]
