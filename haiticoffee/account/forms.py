@@ -8,6 +8,18 @@ class NewAddressForm(forms.Form):
     postalCode = forms.CharField(label='Postal Code', max_length=10, required=True)
     country = forms.CharField(label='Country', max_length=250, required=True)
 
+class ChangeAddressForm(forms.Form):
+    addressID = forms.CharField(label = "AddressID ", max_length = 250, required = True)
+    addressLine1 = forms.CharField(label='Address Line 1', max_length=250, required=True)
+    addressLine2 = forms.CharField(label='Address Line 2', max_length=250, required=False)
+    city = forms.CharField(label='City', max_length=250, required=True)
+    state = forms.CharField(label='State', max_length=30, required=True)
+    postalCode = forms.CharField(label='Postal Code', max_length=10, required=True)
+    country = forms.CharField(label='Country', max_length=250, required=True)
+
+class DeleteAddressForm(forms.Form):
+    addressID = forms.CharField(label = "AddressID ", max_length = 250, required = True)
+
 
 
 class RegistrationForm(forms.Form):
