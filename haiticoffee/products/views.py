@@ -36,6 +36,12 @@ def webScrapeData():
 
 
 def insertScrapeData():
+    newCollection = Collection.objects.create(
+        collectionName="all",
+        collectionDescription="All Haiti Coffee products."
+    )
+    newCollection.save()
+
     listOfScrape = webScrapeData()
     getCollect = Collection.objects.get(collectionName = 'all')
     #print(getCollect.id)

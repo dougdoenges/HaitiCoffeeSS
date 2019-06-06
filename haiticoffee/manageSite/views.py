@@ -105,7 +105,7 @@ def manageAProduct(request, product_id):
                 currCollection = Collection.objects.get(collectionName=productData['productCollection'])
             else:
                 currCollection = Collection.objects.get(collectionName=productData['productCollection'])
-
+            
             getProduct = Product.objects.get(id = product_id)
             getProduct.productName = productData['productName']
             getProduct.productDescription = productData['productDescription']
