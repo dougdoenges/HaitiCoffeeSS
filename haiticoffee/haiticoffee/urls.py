@@ -22,5 +22,6 @@ urlpatterns = [
     path('collections/', include('prodCollections.urls')),
     path('account/', include('account.urls')),
     # path('pages/', include('pages.urls')),
-    path('products/', include('products.urls'))
+    path('products/', include('products.urls')),
+    path('manage-site/', include('manageSite.urls'))
 ]

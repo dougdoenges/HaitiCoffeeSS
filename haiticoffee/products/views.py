@@ -46,8 +46,8 @@ def insertScrapeData():
 
         newProduct = Product.objects.create(productName = name, productDescription = name, productPrice = doublePrice, productCollection = getCollect)
         
-#Product Scraped
-#insertScrapeData()
+# Uncomment and run to scrape data from Haiti Coffee Co. and insert into database
+# insertScrapeData()
 
         
 

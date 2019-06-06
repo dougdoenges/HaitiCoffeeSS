@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <h2>Manage {{ product.productName }}</h2>
+    <div>
+        <ul>
+            {% for image in images %}
+                <img src="{{image.img}}">
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h3>Add an image to your product!</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Image</button>
+        </form>
+    </div>
+{% endblock %}

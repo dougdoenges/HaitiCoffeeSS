@@ -259,7 +259,7 @@ def testAdmin(request):
     """
     Turns current user account into Admin account for testing purposes.
     """
-    if request.method == "PATCH":
+    if request.method == "GET":
         currCustomer = Customer.objects.get(user=request.user)
         currCustomer.isAdmin = True
         currCustomer.save()

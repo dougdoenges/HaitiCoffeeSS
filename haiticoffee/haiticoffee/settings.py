@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'account',
     'main',
-    # 'products',
+    'manageSite',
+    'products',
     'django_extensions',
     'jquery'
 ]

@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="text-center my-3">
+    <h2>Manage Products</h2>
+    <p>Click on a product name to manage.</p>
+    <ul>
+        {% for product in productDetails %}
+            <li>
+                <a href="./{{ product.id }}">
+                    {{ product.productName }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

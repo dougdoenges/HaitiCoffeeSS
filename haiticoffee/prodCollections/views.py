@@ -23,9 +23,10 @@ def getCollection(request, collection_id):
                 productObj = Product.objects.get(id=product['id'])
                 product['productImages'] = list(Product_Image.objects.filter(product=productObj).values())
             allCollections = list(Collection.objects.all().values())
-            return render(request, 'prodCollections/collection.html',
+            return HttpResponse(render(request, 'prodCollections/collection.html',
                 {'collectionDetails': collectionDetails, 'productDetails': collectionList,
-                 'allCollections': allCollections}, status=200)
+                 'allCollections': allCollections}), status=200)
+
     except DatabaseError :
         return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e :

@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class="text-center my-3">
+            <div class="my-2">
+                <p><strong>Name:</strong> {{ product.productName }}</p>
+                <p><strong>Description:</strong> {{ product.productDescription }}</p>
+                <p><strong>Price:</strong> {{ product.productPrice }}</p>
+                <p><strong>Collection:</strong> {{ product.productCollection.collectionName }}</p>
+            </div>
+    </div>
+    <div class="my-2">
+        <h2>Update Product</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Change Product</button>
+        </form>
+    </div>
+    <div class="my-2">
+        <button>
+            <a href="./{{product.id}}/images">Manage Images</a>
+        </button>
+    </div>
+    <div class="my-4">
+        <!-- Need to have function to delete a product -->
+    </div>
+
+{% endblock %}
