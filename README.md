@@ -23,7 +23,7 @@
   
 "account/logout/"
 ## GET
-  Logs the current user out and takes them to the homepage "/"
+  Logs the current user out "/"
   
 "account/address/"
 ### GET
