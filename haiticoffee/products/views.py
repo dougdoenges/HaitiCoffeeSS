@@ -204,11 +204,14 @@ def delete(request):
         elif request.method == "POST":
             productData = request.POST
             getProduct = Product.objects.get(id = productData['productID'])
-            print(getProduct)
-            getProduct.delete()
+            print(getProduct.id, getProduct.productName)
+            try:
+                getProduct.delete()
+            except:
+                HttpResponse('You Cannot Delete This', status=status.HTTP_400_BAD_REQUEST)
             return HttpResponse('Product Deleted successfully', status=status.HTTP_200_OK)
-    # except DatabaseError :
-    #     return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
+    except DatabaseError :
+        return HttpResponse(DatabaseErrorMessage, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return HttpResponse(str(e), status=status.HTTP_400_BAD_REQUEST)
     
