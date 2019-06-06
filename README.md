@@ -2,7 +2,7 @@
 
 # Server Side Final Project
 
-"/"
+##"/"
 ### GET:
   returns the index page of the website.
   
