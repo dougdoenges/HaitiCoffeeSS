@@ -6,10 +6,11 @@ from . import views
 app_name = 'products'
 
 urlpatterns = [
-    path('<product-name>/', views.getProduct, name="getProduct"),
-    path('<product-name>/purchase', views.buyProduct, name="buyProduct"),
-    
+    path('<int:product_id>', views.getProduct, name="getProduct"),
+    path('<int:product_id>/purchase', views.buyProduct, name="buyProduct"),
+    path('delete', views.delete, name = "deleteProducts"),
     path('create', views.createProducts, name = "createProducts"),
+    path('change', views.changeProduct, name = "changeProducts"),
     path('', views.products, name="products"),
     path('<int:product_id>/manage-images', views.manageProductImages, name='manageProductImages'),
     path('<int:product_id>/images', views.getProductImages, name='getProductImages')
