@@ -7,63 +7,63 @@
   returns the index page of the website.
   
   
-"account/login/"
+## "account/login/"
 ### GET
   Returns form to login
   
 ### POST
   Logs user into the application and takes them to the homepage "/"
   
-"account/register/"
+## "account/register/"
 ### GET
   Returns form to create an account
   
 ### POST
   Creates a user with specified details
   
-"account/logout/"
+## "account/logout/"
 ## GET
   Logs the current user out "/"
   
-"account/address/"
+## "account/address/"
 ### GET
   Returns address management page including all the current users addresses
   
 
-"account/address/create/"
+## "account/address/create/"
 ### GET
   Gets form to create a new address
 
 ### POST
   Post a new address
 
-"account/address/delete/"
+## "account/address/delete/"
 ### GET
   Gets form to delete an address
   
 ### POST
   Delete a new address for the user
   
-/account/address/change/"
+## /account/address/change/"
 ### GET
   Gets form to edit an existing address
   
 ### POST
   Updates the address and redirects to "account/address/"
   
-"collections/<str:collection-name>/"
+## "collections/<str:collection-name>/"
 ### GET
   Gets all products in the specified collection and returns a page displaying them as well as links to the other collections.
   
-"products/<str:product-name>/"
+## "products/<str:product-name>/"
 ### GET
   Returns the product details and renders them on a product page.
   
-"cart/add/<str:product-name>/"
+## "cart/add/<str:product-name>/"
 ### POST
   Adds a given product to the current users cart.
 
-"cart/"
+## "cart/"
 ### GET
   Displays the current users cart.
   
