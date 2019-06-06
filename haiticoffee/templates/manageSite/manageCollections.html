@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="text-center my-3">
+    <h2>Manage Collections</h2>
+    <p>Click on a collection name to manage.</p>
+    <ul>
+        {% for collection in collectionDetails %}
+            <li>
+                <a href="./{{ collection.id }}">
+                    {{ collection.collectionName }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="text-center my-4">
+    <button><a href="./create">Create A New Collection</a></button>
+</div>
+{% endblock %}

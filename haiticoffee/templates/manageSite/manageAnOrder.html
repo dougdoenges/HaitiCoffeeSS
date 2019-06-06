@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class="text-center my-3">
+            <div class="my-2">
+                <p><strong>Order Date:</strong> {{ order.orderDate }}</p>
+                <p><strong>Order Status:</strong> {{ order.status }}</p>
+                <p><strong>Order Price:</strong> {{ order.totalPrice }}</p>
+            </div>
+    </div>
+    <div class="my-2">
+        <h2>Update Order Status</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Change Order Status</button>
+        </form>
+    </div>
+{% endblock %}

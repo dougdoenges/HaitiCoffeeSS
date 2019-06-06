@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="text-center my-3">
+    <h2>Manage Orders</h2>
+    <p>Click on one of the order buttons to manage.</p>
+    <ul>
+        {% for order in orderDetails %}
+            <li class="my-2">
+                Order Date: {{ order.orderDate }}
+                Order Status: {{ order.status }}
+                Order Price: {{ order.totalPrice }}
+                <button>
+                    <a href="./{{ order.id }}">Go to Order</a>
+                </button>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
