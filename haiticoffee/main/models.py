@@ -47,9 +47,5 @@ class Order(models.Model):
 
 class Product_Image(models.Model) :
     product = models.ForeignKey('product', Product)
-<<<<<<< HEAD
     img = models.ImageField('img', upload_to='static/staticfiles/img/', blank=True, null=True)
-=======
-    img = models.ImageField('img', upload_to='static/staticfiles/img', blank=True, null=True)
->>>>>>> 02672b17e738f13baaf396c8a0e891945726ce40
     uploadedAt = models.DateTimeField(auto_now_add=True)

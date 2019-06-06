@@ -56,13 +56,39 @@ def getProduct(request, product_id):
     # GET to return the product page
     try:
         if request.method == "GET":
-            currProduct = Product.objects.get(id=product_id)
-            # currProductImages = Product_Image.objects.filter(product=currProduct).values()
-            # #currProduct = list(currProduct)
-            # if(len(currProductImages) is not 0):
-            #     currProduct['productImages'] = currProductImages
-            return render(request, 'products/product-page.html', 
-                {'productDetails': currProduct}, status=200)
+            productImageSrc = []
+
+            productObj = Product.objects.get(id=product_id)
+            allImages = Product_Image.objects.all()
+                #print(allImages)
+            id = productObj.id
+            name = productObj.productName
+            price = productObj.productPrice
+
+            if len(allImages) is 0:
+                productImageSrc.append((id, name, price, ''))
+            else:
+                for eachImage in allImages:
+                    #print(eachImage.img)
+                    if(eachImage.product == productObj):
+                        
+                        imageGet = (Product_Image.objects.get(product=productObj))
+                        stringSrc = str(imageGet.img)
+                        stringSrc = stringSrc[0:-1] + 'g'
+                        print(stringSrc)
+                        productImageSrc.append((id, name, price, stringSrc))
+
+                    else:
+                        productImageSrc.append((id, name, price, ''))
+                #product['productImages'] = (Product_Image.objects.filter(product=productObj).values())
+
+            # allCollections = list(Collection.objects.all().values())
+
+
+            print(productImageSrc)
+            return HttpResponse(render(request, 'products/product-page.html', {'productInfo': productImageSrc}), status=200)
+            # return render(request, 'products/product-page.html', 
+            #     {'productDetails': currProduct}, status=200)
         else:
             return HttpResponse("Method not allowed.", status=405)
     except DatabaseError :
